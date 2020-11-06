@@ -20,6 +20,29 @@ class LoginController: UIViewController {
         return label
     }()
     
+    private var emailTextField: UITextField = {
+        return UITextField().textField(withPlaceholder: "Email",
+                                       isSecureTextEntry: false)
+    }()
+    
+    private var passwordTextField: UITextField = {
+        return UITextField().textField(withPlaceholder: "Password",
+                                       isSecureTextEntry: true)
+    }()
+    
+    private lazy var emailContainerView: UIView = {
+        let view = UIView().inputContainerView(image: UIImage(systemName: "envelope")!,
+                                               textField: emailTextField)
+        view.anchor(height: 50)
+        return view
+    }()
+    
+    private lazy var passwordContainerView: UIView = {
+        let view = UIView().inputContainerView(image: UIImage(systemName: "lock")!,
+                                           textField: passwordTextField)
+        view.anchor(height: 50)
+        return view
+    }()
     
     //MARK: - Lifecycle
     
@@ -31,6 +54,15 @@ class LoginController: UIViewController {
         view.addSubview(titleLabel)
         titleLabel.anchor(top: view.safeAreaLayoutGuide.topAnchor)
         titleLabel.centerX(inView: view)
+        
+        let stack = UIStackView(arrangedSubviews: [emailContainerView, passwordContainerView])
+        stack.axis = .vertical
+        stack.distribution = .fillEqually
+        stack.spacing = 16
+        
+        view.addSubview(stack)
+        stack.anchor(top: titleLabel.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 40, paddingLeft: 16, paddingRight: 16)
+        
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
