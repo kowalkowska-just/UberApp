@@ -47,6 +47,7 @@ class LoginController: UIViewController {
     private let loginButton: AuthButton = {
         let button = AuthButton()
         button.setTitle("Log in", for: .normal)
+        button.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
         return button
     }()
     
@@ -72,6 +73,13 @@ class LoginController: UIViewController {
     @objc func handleShowSingUp() {
         let controller = SingUpController()
         navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    @objc func handleLogin() {
+        guard let email = emailTextField.text else { return }
+        guard let password = passwordTextField.text else { return }
+        
+        
     }
     
     //MARK: - Helper Functions
