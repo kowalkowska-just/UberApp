@@ -112,7 +112,7 @@ class LocationInputView: UIView {
         startLocationIndicatorView.centerY(inView: startingLocationTextField)
         startLocationIndicatorView.anchor(left: leftAnchor, paddingLeft: 20,
                                           width: 6, height: 6)
-        startLocationIndicatorView.layer.cornerRadius = startLocationIndicatorView.bounds.size.width / 2
+        startLocationIndicatorView.layer.cornerRadius = 6 / 2
         
         addSubview(destinationIndicatorView)
         destinationIndicatorView.centerY(inView: destinationLocationTextField)

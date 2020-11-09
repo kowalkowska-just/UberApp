@@ -21,6 +21,7 @@
 		D1C35B8E2558B7CA00FB5504 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C35B8D2558B7CA00FB5504 /* HomeController.swift */; };
 		D1C35B9125599CF700FB5504 /* LocationInputActivationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C35B9025599CF700FB5504 /* LocationInputActivationView.swift */; };
 		D1C35B942559BAB400FB5504 /* LocationInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C35B932559BAB400FB5504 /* LocationInputView.swift */; };
+		D1C35B972559EB5900FB5504 /* LocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C35B962559EB5900FB5504 /* LocationCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		D1C35B8D2558B7CA00FB5504 /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		D1C35B9025599CF700FB5504 /* LocationInputActivationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInputActivationView.swift; sourceTree = "<group>"; };
 		D1C35B932559BAB400FB5504 /* LocationInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInputView.swift; sourceTree = "<group>"; };
+		D1C35B962559EB5900FB5504 /* LocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +134,7 @@
 				D15BC1E02555F81000F82E58 /* AuthButton.swift */,
 				D1C35B9025599CF700FB5504 /* LocationInputActivationView.swift */,
 				D1C35B932559BAB400FB5504 /* LocationInputView.swift */,
+				D1C35B962559EB5900FB5504 /* LocationCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -273,6 +276,7 @@
 				D1C35B942559BAB400FB5504 /* LocationInputView.swift in Sources */,
 				D16016722554C24C00C36409 /* AppDelegate.swift in Sources */,
 				D15BC1DE2555D98A00F82E58 /* SingUpController.swift in Sources */,
+				D1C35B972559EB5900FB5504 /* LocationCell.swift in Sources */,
 				D16016742554C24C00C36409 /* SceneDelegate.swift in Sources */,
 				D1C35B9125599CF700FB5504 /* LocationInputActivationView.swift in Sources */,
 				D16016912554C8F600C36409 /* Extension.swift in Sources */,
