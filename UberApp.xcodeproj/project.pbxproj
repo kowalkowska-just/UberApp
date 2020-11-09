@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -18,6 +18,7 @@
 		D160167E2554C24D00C36409 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D160167C2554C24D00C36409 /* LaunchScreen.storyboard */; };
 		D160168C2554C37F00C36409 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D160168B2554C37F00C36409 /* LoginController.swift */; };
 		D16016912554C8F600C36409 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16016902554C8F600C36409 /* Extension.swift */; };
+		D1C35B8E2558B7CA00FB5504 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C35B8D2558B7CA00FB5504 /* HomeController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		D160167F2554C24D00C36409 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D160168B2554C37F00C36409 /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		D16016902554C8F600C36409 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		D1C35B8D2558B7CA00FB5504 /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +117,7 @@
 			children = (
 				D160168B2554C37F00C36409 /* LoginController.swift */,
 				D15BC1DD2555D98A00F82E58 /* SingUpController.swift */,
+				D1C35B8D2558B7CA00FB5504 /* HomeController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -140,7 +143,6 @@
 				6DA4A56DB2F4407A4AE0AE79 /* Pods-UberApp.debug.xcconfig */,
 				B0E22504E04681D2BF30FCAD /* Pods-UberApp.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -261,6 +263,7 @@
 			files = (
 				D160168C2554C37F00C36409 /* LoginController.swift in Sources */,
 				D15BC1E12555F81000F82E58 /* AuthButton.swift in Sources */,
+				D1C35B8E2558B7CA00FB5504 /* HomeController.swift in Sources */,
 				D16016722554C24C00C36409 /* AppDelegate.swift in Sources */,
 				D15BC1DE2555D98A00F82E58 /* SingUpController.swift in Sources */,
 				D16016742554C24C00C36409 /* SceneDelegate.swift in Sources */,
