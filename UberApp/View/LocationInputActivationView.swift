@@ -37,11 +37,7 @@ class LocationInputActivationView: UIView {
         super.init(frame: frame)
         
         backgroundColor = .white
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOpacity = 0.55
-        layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
-        layer.masksToBounds = false
-        
+        addShadow()
         
         addSubview(indecatorView)
         indecatorView.anchor(left: leftAnchor, paddingLeft: 16, width: 6, height: 6)
@@ -65,7 +61,6 @@ class LocationInputActivationView: UIView {
 //MARK: - Selectors
     
     @objc func presentLocationInputView() {
-        print("tap")
         delegate?.presentLocationInputView()
     }
     
