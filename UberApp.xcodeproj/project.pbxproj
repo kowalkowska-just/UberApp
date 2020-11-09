@@ -22,6 +22,7 @@
 		D1C35B9125599CF700FB5504 /* LocationInputActivationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C35B9025599CF700FB5504 /* LocationInputActivationView.swift */; };
 		D1C35B942559BAB400FB5504 /* LocationInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C35B932559BAB400FB5504 /* LocationInputView.swift */; };
 		D1C35B972559EB5900FB5504 /* LocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C35B962559EB5900FB5504 /* LocationCell.swift */; };
+		D1C35B9A2559FAB100FB5504 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C35B992559FAB100FB5504 /* Service.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		D1C35B9025599CF700FB5504 /* LocationInputActivationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInputActivationView.swift; sourceTree = "<group>"; };
 		D1C35B932559BAB400FB5504 /* LocationInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInputView.swift; sourceTree = "<group>"; };
 		D1C35B962559EB5900FB5504 /* LocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCell.swift; sourceTree = "<group>"; };
+		D1C35B992559FAB100FB5504 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Service.swift; path = UberApp/View/Service.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +116,7 @@
 		D16016872554C29D00C36409 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				D1C35B992559FAB100FB5504 /* Service.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -278,6 +281,7 @@
 				D15BC1DE2555D98A00F82E58 /* SingUpController.swift in Sources */,
 				D1C35B972559EB5900FB5504 /* LocationCell.swift in Sources */,
 				D16016742554C24C00C36409 /* SceneDelegate.swift in Sources */,
+				D1C35B9A2559FAB100FB5504 /* Service.swift in Sources */,
 				D1C35B9125599CF700FB5504 /* LocationInputActivationView.swift in Sources */,
 				D16016912554C8F600C36409 /* Extension.swift in Sources */,
 			);

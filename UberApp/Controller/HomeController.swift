@@ -22,6 +22,13 @@ class HomeController: UIViewController {
     private let locationInputView = LocationInputView()
     private let tableView = UITableView()
     
+    private var fullname: String? {
+        didSet {
+            print("DEBUG: Did set fullname...")
+            locationInputView.titleLabel.text = fullname
+        }
+    }
+    
     private final let locationInputViewHeight: CGFloat = 200
     
 //MARK: - Lifecycle
@@ -31,10 +38,16 @@ class HomeController: UIViewController {
         checkIfUserIsLoggedIn()
         enableLocationServices()
 //        signOut()
-        view.backgroundColor = .backgroundColor
+        fetchUserData()
     }
     
 //MARK: - API
+    
+    func fetchUserData() {
+        Service.shered.fetchUserData { (fullname) in
+            self.fullname = fullname
+        }
+    }
     
     func checkIfUserIsLoggedIn(){
         if Auth.auth().currentUser?.uid == nil {
@@ -63,6 +76,8 @@ class HomeController: UIViewController {
     func configureUI() {
         configureMapView()
         
+        view.backgroundColor = .backgroundColor
+
         view.addSubview(inputActivationView)
         inputActivationView.centerX(inView: view)
         inputActivationView.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: 32 ,width: view.frame.width - 64, height: 50)
