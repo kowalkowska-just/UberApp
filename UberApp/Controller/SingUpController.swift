@@ -10,7 +10,7 @@ import Firebase
     
 class SingUpController: UIViewController {
     
-    //MARK: - Properties
+//MARK: - Properties
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -89,7 +89,7 @@ class SingUpController: UIViewController {
     }()
     
     
-    //MARK: - Lifecycle
+//MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -100,7 +100,7 @@ class SingUpController: UIViewController {
         return .lightContent
     }
 
-    //MARK: - Selectors
+//MARK: - Selectors
     
     @objc func handleShowLogin() {
         navigationController?.popViewController(animated: true)
@@ -115,7 +115,7 @@ class SingUpController: UIViewController {
         Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
             
             if let error = error {
-                print("Failed to register user with error \(error.localizedDescription)")
+                print("DEBUG: Failed to register user with error \(error.localizedDescription)")
                 return
             }
             
@@ -126,7 +126,7 @@ class SingUpController: UIViewController {
                           "accountType": accountTypeIndex] as [String: Any]
             
             Database.database().reference().child("users").child(uid).updateChildValues(values, withCompletionBlock: { (error, ref) in
-                print("Successfully registered user and saved data...")
+                print("DEBUG: Successfully registered user and saved data...")
                 guard let controller = UIApplication.shared.keyWindow?.rootViewController as? HomeController else { return }
                 controller.configureUI()
                 self.dismiss(animated: true, completion: nil)
@@ -135,7 +135,7 @@ class SingUpController: UIViewController {
         }
     }
     
-    //MARK: - Helper Functions
+//MARK: - Helper Functions
     
     func configureUI() {
         configureNavigationBar()

@@ -10,7 +10,7 @@ import Firebase
 
 class LoginController: UIViewController {
 
-    //MARK: - Properties
+//MARK: - Properties
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -61,7 +61,8 @@ class LoginController: UIViewController {
         
         return button
     }()
-    //MARK: - Lifecycle
+    
+//MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,7 +70,7 @@ class LoginController: UIViewController {
         configureUI()
     }
     
-    //MARK: - Selectors
+//MARK: - Selectors
     
     @objc func handleShowSingUp() {
         let controller = SingUpController()
@@ -83,18 +84,18 @@ class LoginController: UIViewController {
         Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
             
             if let error = error {
-                print("Failed to log user in with error \(error.localizedDescription) ")
+                print("DEBUG: Failed to log user in with error \(error.localizedDescription) ")
                 return
             }
         
-            print("Succesfully logged user in..")
+            print("DEBUG: Succesfully logged user in..")
             guard let controller = UIApplication.shared.keyWindow?.rootViewController as? HomeController else { return }
             controller.configureUI()
             self.dismiss(animated: true, completion: nil)
         }
     }
     
-    //MARK: - Helper Functions
+//MARK: - Helper Functions
     
     func configureUI() {
         configureNavigationBar()
