@@ -94,6 +94,10 @@ class HomeController: UIViewController {
             self.locationInputView.alpha = 1
         } completion: { (_) in
             print("DEBUG: Present table view..")
+            
+            UIView.animate(withDuration: 0.3) {
+                self.tableView.frame.origin.y = self.locationInputViewHeight
+            }
         }
     }
     
@@ -157,8 +161,10 @@ extension HomeController: LocationInputViewDelegate {
     func dismissLocationInput() {
         print("DEBUG: Dismiss view..")
         
+        locationInputView.removeFromSuperview()
+        
         UIView.animate(withDuration: 0.3) {
-            self.locationInputView.alpha = 0
+            self.tableView.frame.origin.y = self.view.frame.height
         } completion: { (_) in
             UIView.animate(withDuration: 0.3) {
                 self.inputActivationView.alpha = 1
