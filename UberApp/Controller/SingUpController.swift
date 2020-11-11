@@ -27,7 +27,7 @@ class SingUpController: UIViewController {
     }()
     
     private var fullnameTextField: UITextField = {
-        return UITextField().textField(withPlaceholder: "Full Namw",
+        return UITextField().textField(withPlaceholder: "Full Name",
                                        isSecureTextEntry: false)
     }()
     
