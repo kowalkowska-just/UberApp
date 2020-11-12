@@ -36,7 +36,7 @@ class HomeController: UIViewController {
         enableLocationServices()
         fetchUserData()
         fetchDrivers()
-    //signOut()
+        signOut()
     }
     
 //MARK: - API
@@ -50,8 +50,10 @@ class HomeController: UIViewController {
     
     func fetchDrivers() {
         guard let location = locationManager?.location else { return }
-        Service.shered.fetchDrivers(location: location) { (user) in
-            print("DEBUG: Driver is \(user.location)")
+        Service.shered.fetchDrivers(location: location) { (driver) in
+            guard let coordinate = driver.location?.coordinate else { return }
+            let annotation = DriverAnnotation(uid: driver.uid, coordinate: coordinate)
+            self.mapView.addAnnotation(annotation)
         }
     }
     
