@@ -18,6 +18,7 @@
 		D160167E2554C24D00C36409 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D160167C2554C24D00C36409 /* LaunchScreen.storyboard */; };
 		D160168C2554C37F00C36409 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D160168B2554C37F00C36409 /* LoginController.swift */; };
 		D16016912554C8F600C36409 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16016902554C8F600C36409 /* Extension.swift */; };
+		D1694813255D7BAA00DBAD62 /* LocationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1694812255D7BAA00DBAD62 /* LocationHandler.swift */; };
 		D1C35B8E2558B7CA00FB5504 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C35B8D2558B7CA00FB5504 /* HomeController.swift */; };
 		D1C35B9125599CF700FB5504 /* LocationInputActivationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C35B9025599CF700FB5504 /* LocationInputActivationView.swift */; };
 		D1C35B942559BAB400FB5504 /* LocationInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C35B932559BAB400FB5504 /* LocationInputView.swift */; };
@@ -42,6 +43,7 @@
 		D160167F2554C24D00C36409 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D160168B2554C37F00C36409 /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		D16016902554C8F600C36409 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		D1694812255D7BAA00DBAD62 /* LocationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationHandler.swift; sourceTree = "<group>"; };
 		D1C35B8D2558B7CA00FB5504 /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		D1C35B9025599CF700FB5504 /* LocationInputActivationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInputActivationView.swift; sourceTree = "<group>"; };
 		D1C35B932559BAB400FB5504 /* LocationInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInputView.swift; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 			isa = PBXGroup;
 			children = (
 				D16016902554C8F600C36409 /* Extension.swift */,
+				D1694812255D7BAA00DBAD62 /* LocationHandler.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -283,6 +286,7 @@
 				D16016722554C24C00C36409 /* AppDelegate.swift in Sources */,
 				D15BC1DE2555D98A00F82E58 /* SingUpController.swift in Sources */,
 				D1C35B972559EB5900FB5504 /* LocationCell.swift in Sources */,
+				D1694813255D7BAA00DBAD62 /* LocationHandler.swift in Sources */,
 				D16016742554C24C00C36409 /* SceneDelegate.swift in Sources */,
 				D1C35B9D255A0DA400FB5504 /* User.swift in Sources */,
 				D1C35B9A2559FAB100FB5504 /* Service.swift in Sources */,

@@ -7,10 +7,15 @@
 
 import UIKit
 import Firebase
-    
+import GeoFire
+
 class SingUpController: UIViewController {
     
 //MARK: - Properties
+    
+    private let location = LocationHandler.shared.locationManager.location
+    
+    private var typeAccount = "Rider"
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -41,6 +46,7 @@ class SingUpController: UIViewController {
         sc.backgroundColor = .lightGray
         sc.tintColor = UIColor(white: 1, alpha: 0.87)
         sc.selectedSegmentIndex = 0
+        sc.addTarget(self, action: #selector(handleChangeTypeAccount(_:)), for: .valueChanged)
         return sc
     }
     
@@ -102,6 +108,20 @@ class SingUpController: UIViewController {
 
 //MARK: - Selectors
     
+    @objc func handleChangeTypeAccount(_ sender: UISegmentedControl) {
+        
+        print("DEBUG: Changed value.")
+        switch sender.selectedSegmentIndex {
+        case 0:
+            typeAccount = "Rider"
+        case 1:
+            typeAccount = "Driver"
+        default:
+            break
+        }
+        
+    }
+    
     @objc func handleShowLogin() {
         navigationController?.popViewController(animated: true)
     }
@@ -110,7 +130,7 @@ class SingUpController: UIViewController {
         guard let email = emailTextField.text else { return }
         guard let password = passwordTextField.text else { return }
         guard let fullname = fullnameTextField.text else { return }
-        let accountTypeIndex = accountTypeSegmentedControl.selectedSegmentIndex
+        let accountTypeIndex = typeAccount
         
         Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
             
@@ -125,17 +145,31 @@ class SingUpController: UIViewController {
                           "fullname": fullname,
                           "accountType": accountTypeIndex] as [String: Any]
             
-            Database.database().reference().child("users").child(uid).updateChildValues(values, withCompletionBlock: { (error, ref) in
-                print("DEBUG: Successfully registered user and saved data...")
-                guard let controller = UIApplication.shared.keyWindow?.rootViewController as? HomeController else { return }
-                controller.configureUI()
-                self.dismiss(animated: true, completion: nil)
-
-            })
+            if accountTypeIndex == "Driver" {
+                let geofire = GeoFire(firebaseRef: REF_DRIVER_LOCATIONS)
+                guard let location = self.location else { return }
+                
+                geofire.setLocation(location, forKey: uid) { (error) in
+                    self.uploadUserDataAndShowHomeController(uid: uid, values: values)
+                }
+            }
+            
+            self.uploadUserDataAndShowHomeController(uid: uid, values: values)
         }
     }
     
 //MARK: - Helper Functions
+    
+    func uploadUserDataAndShowHomeController(uid: String, values: [String: Any]) {
+        
+        REF_USERS.child(uid).updateChildValues(values, withCompletionBlock: { (error, ref) in
+            print("DEBUG: Successfully registered user and saved data...")
+            guard let controller = UIApplication.shared.keyWindow?.rootViewController as? HomeController else { return }
+            controller.configureUI()
+            self.dismiss(animated: true, completion: nil)
+
+        })
+    }
     
     func configureUI() {
         configureNavigationBar()
