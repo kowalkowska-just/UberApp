@@ -35,9 +35,8 @@ class HomeController: UIViewController {
         super.viewDidLoad()
         checkIfUserIsLoggedIn()
         enableLocationServices()
-        fetchUserData()
-        fetchDrivers()
-   //     signOut()
+
+//        signOut()
     }
     
 //MARK: - API
@@ -82,7 +81,7 @@ class HomeController: UIViewController {
             }
         } else {
             print("DEBUG: User's id is \(String(describing: Auth.auth().currentUser?.uid))")
-            configureUI()
+            configure()
         }
     }
     
@@ -100,6 +99,12 @@ class HomeController: UIViewController {
     }
     
 //MARK: - Helper Functions
+    
+    func configure() {
+        configureUI()
+        fetchUserData()
+        fetchDrivers()
+    }
     
     func configureUI() {
         configureMapView()
