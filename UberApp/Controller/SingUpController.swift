@@ -27,13 +27,18 @@ class SingUpController: UIViewController {
     }()
     
     private var emailTextField: UITextField = {
-        return UITextField().textField(withPlaceholder: "Email",
-                                       isSecureTextEntry: false)
+        let tf = UITextField().textField(withPlaceholder: "Email",
+                                         isSecureTextEntry: false)
+        tf.autocapitalizationType = .none
+        tf.keyboardType = .emailAddress
+        return tf
     }()
     
     private var fullnameTextField: UITextField = {
-        return UITextField().textField(withPlaceholder: "Full Name",
-                                       isSecureTextEntry: false)
+        let tf = UITextField().textField(withPlaceholder: "Full Name",
+                                         isSecureTextEntry: false)
+        tf.autocapitalizationType = .none
+        return tf
     }()
     
     private var passwordTextField: UITextField = {
