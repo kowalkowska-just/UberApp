@@ -166,6 +166,18 @@ class HomeController: UIViewController {
         
         view.addSubview(tableView)
     }
+    
+    func dismissLocationView(completion: ((Bool) -> Void)? = nil) {
+        
+        UIView.animate(withDuration: 0.3, animations: {
+            self.locationInputView.alpha = 0
+            self.tableView.frame.origin.y = self.view.frame.height
+            self.locationInputView.removeFromSuperview()
+            UIView.animate(withDuration: 0.5, animations: {
+                self.inputActivationView.alpha = 1
+            })
+        }, completion: completion)
+    }
 }
 
 //MARK: - Map Helper Functions
@@ -243,26 +255,16 @@ extension HomeController: LocationInputActivationViewDelegate {
 //MARK: - LocationInputViewDelegate
 
 extension HomeController: LocationInputViewDelegate {
+    func dismissLocationInputView() {
+        dismissLocationView()
+    }
+    
     
     func executeSearch(query: String) {
         searchBy(naturalLanguageQuery: query) { (results) in
             print("DEBUG: Placemark is \(results)")
             self.searchResults = results
             self.tableView.reloadData()
-        }
-    }
-    
-    func dismissLocationInput() {
-        print("DEBUG: Dismiss view..")
-                
-        UIView.animate(withDuration: 0.3) {
-            self.locationInputView.alpha = 0
-            self.tableView.frame.origin.y = self.view.frame.height
-        } completion: { (_) in
-            self.locationInputView.removeFromSuperview()
-            UIView.animate(withDuration: 0.3) {
-                self.inputActivationView.alpha = 1
-            }
         }
     }
 }
@@ -294,5 +296,17 @@ extension HomeController: UITableViewDelegate, UITableViewDataSource {
         }
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let selectedPlacemark = searchResults[indexPath.row]
+
+        dismissLocationView { (_) in
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = selectedPlacemark.coordinate
+            self.mapView.addAnnotation(annotation)
+            self.mapView.selectAnnotation(annotation, animated: true)
+        }
     }
 }
