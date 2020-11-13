@@ -12,6 +12,15 @@ import MapKit
 private let reuseIdentifier = "LocationCell"
 private let annotationIdentifier = "DriverAnnotation"
 
+private enum ActionButtonConfiguration {
+    case showMenu
+    case dismissActionView
+    
+    init() {
+        self = .showMenu
+    }
+}
+
 class HomeController: UIViewController {
     
 //MARK: - Properties
@@ -22,14 +31,22 @@ class HomeController: UIViewController {
     private let inputActivationView = LocationInputActivationView()
     private let locationInputView = LocationInputView()
     private let tableView = UITableView()
-    
     private var searchResults = [MKPlacemark]()
-    
+    private final let locationInputViewHeight: CGFloat = 200
+    private var actionButtonConfig = ActionButtonConfiguration()
+
     private var user: User? {
         didSet { locationInputView.user = user }
     }
     
-    private final let locationInputViewHeight: CGFloat = 200
+    private let actionButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(named: "menu-icon"), for: .normal)
+        button.tintColor = .darkGray
+        button.addTarget(self, action: #selector(actionButtonPressed), for: .touchUpInside)
+        return button
+    }()
+    
     
 //MARK: - Lifecycle
     
@@ -39,6 +56,24 @@ class HomeController: UIViewController {
         enableLocationServices()
 
 //        signOut()
+    }
+    
+//MARK: - Selectors
+    @objc func actionButtonPressed() {
+        
+        switch actionButtonConfig {
+        case .dismissActionView:
+            print("DEBUG: Handle dismiss action view.")
+            
+            UIView.animate(withDuration: 0.3) {
+                self.inputActivationView.alpha = 1
+                self.actionButton.setImage(UIImage(named: "menu-icon"), for: .normal)
+                self.actionButtonConfig = .showMenu
+            }
+            
+        case .showMenu:
+            print("DEBUG: Handle show menu.")
+        }
     }
     
 //MARK: - API
@@ -113,9 +148,12 @@ class HomeController: UIViewController {
         
         view.backgroundColor = .backgroundColor
 
+        view.addSubview(actionButton)
+        actionButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, paddingTop: 16, paddingLeft: 20, width: 25, height: 25)
+        
         view.addSubview(inputActivationView)
         inputActivationView.centerX(inView: view)
-        inputActivationView.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: 32 ,width: view.frame.width - 64, height: 50)
+        inputActivationView.anchor(top: actionButton.bottomAnchor, paddingTop: 32, width: view.frame.width - 64, height: 50)
         inputActivationView.alpha = 0
         inputActivationView.delegate = self
         
@@ -145,10 +183,13 @@ class HomeController: UIViewController {
             self.locationInputView.alpha = 1
         } completion: { (_) in
             print("DEBUG: Present table view..")
-            
-            UIView.animate(withDuration: 0.3) {
-                self.tableView.frame.origin.y = self.locationInputViewHeight
-            }
+            self.displayTableView()
+        }
+    }
+    
+    func displayTableView() {
+        UIView.animate(withDuration: 0.3) {
+            self.tableView.frame.origin.y = self.locationInputViewHeight
         }
     }
     
@@ -173,9 +214,6 @@ class HomeController: UIViewController {
             self.locationInputView.alpha = 0
             self.tableView.frame.origin.y = self.view.frame.height
             self.locationInputView.removeFromSuperview()
-            UIView.animate(withDuration: 0.5, animations: {
-                self.inputActivationView.alpha = 1
-            })
         }, completion: completion)
     }
 }
@@ -199,7 +237,6 @@ private extension HomeController {
                 print("DEBUG: Item is \(item.name)")
                 results.append(item.placemark)
             }
-            
             completion(results)
         }
     }
@@ -212,7 +249,7 @@ extension HomeController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if let annotation = annotation as? DriverAnnotation {
             let view = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
-            view.image = UIImage(systemName: "car.fill")
+            view.image = UIImage(named: "driver-icon-2")
             return view
         }
         return nil
@@ -256,7 +293,11 @@ extension HomeController: LocationInputActivationViewDelegate {
 
 extension HomeController: LocationInputViewDelegate {
     func dismissLocationInputView() {
-        dismissLocationView()
+        dismissLocationView { (_) in
+            UIView.animate(withDuration: 0.5, animations: {
+                self.inputActivationView.alpha = 1
+            })
+        }
     }
     
     
@@ -302,6 +343,9 @@ extension HomeController: UITableViewDelegate, UITableViewDataSource {
         
         let selectedPlacemark = searchResults[indexPath.row]
 
+        actionButton.setImage(UIImage(systemName: "arrow.left"), for: .normal)
+        actionButtonConfig = .dismissActionView
+        
         dismissLocationView { (_) in
             let annotation = MKPointAnnotation()
             annotation.coordinate = selectedPlacemark.coordinate
