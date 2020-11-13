@@ -63,12 +63,16 @@ class HomeController: UIViewController {
         
         switch actionButtonConfig {
         case .dismissActionView:
-            print("DEBUG: Handle dismiss action view.")
+
+            mapView.annotations.forEach { (annotation) in
+                if let anno = annotation as? MKPointAnnotation {
+                    mapView.removeAnnotation(anno)
+                }
+            }
             
             UIView.animate(withDuration: 0.3) {
                 self.inputActivationView.alpha = 1
-                self.actionButton.setImage(UIImage(named: "menu-icon"), for: .normal)
-                self.actionButtonConfig = .showMenu
+                self.configureActionButton(config: .showMenu)
             }
             
         case .showMenu:
@@ -141,6 +145,17 @@ class HomeController: UIViewController {
         configureUI()
         fetchUserData()
         fetchDrivers()
+    }
+    
+    fileprivate func configureActionButton(config: ActionButtonConfiguration) {
+        switch config {
+        case .dismissActionView:
+            self.actionButton.setImage(UIImage(systemName: "arrow.left"), for: .normal)
+            self.actionButtonConfig = .dismissActionView
+        case .showMenu:
+            self.actionButton.setImage(UIImage(named: "menu-icon"), for: .normal)
+            self.actionButtonConfig = .showMenu
+        }
     }
     
     func configureUI() {
@@ -343,8 +358,7 @@ extension HomeController: UITableViewDelegate, UITableViewDataSource {
         
         let selectedPlacemark = searchResults[indexPath.row]
 
-        actionButton.setImage(UIImage(systemName: "arrow.left"), for: .normal)
-        actionButtonConfig = .dismissActionView
+        configureActionButton(config: .dismissActionView)
         
         dismissLocationView { (_) in
             let annotation = MKPointAnnotation()
