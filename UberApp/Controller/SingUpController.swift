@@ -83,7 +83,7 @@ class SingUpController: UIViewController {
     }()
     
     private let signUpButton: AuthButton = {
-        let button = AuthButton()
+        let button = AuthButton(type: .system)
         button.setTitle("Sign Up", for: .normal)
         button.addTarget(self, action: #selector(handleSignUp), for: .touchUpInside)
         return button

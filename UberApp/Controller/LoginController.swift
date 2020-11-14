@@ -49,7 +49,7 @@ class LoginController: UIViewController {
     }()
     
     private let loginButton: AuthButton = {
-        let button = AuthButton()
+        let button = AuthButton(type: .system)
         button.setTitle("Log in", for: .normal)
         button.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
         return button
