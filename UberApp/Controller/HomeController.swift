@@ -204,6 +204,8 @@ class HomeController: UIViewController {
     
     func configurerRideActionView() {
         view.addSubview(rideActionView)
+        
+        rideActionView.delegate = self
         rideActionView.frame = CGRect(x: 0, y: view.frame.height,
                                       width: view.frame.width, height: rideActionViewHeight)
     }
@@ -434,6 +436,24 @@ extension HomeController: UITableViewDelegate, UITableViewDataSource {
             self.mapView.zoomToFit(annotation: annotations)
             
             self.animateRideActionView(shouldShow: true, placemark: selectedPlacemark)
+        }
+    }
+}
+
+//MARK: - RideActionViewDelegate
+
+extension HomeController: RideActionViewDelegate {
+    func uploadTrip(_ view: RideActionView) {
+        guard let pickupCoordinates = locationManager?.location?.coordinate else { return }
+        guard let destinationCoordinates = view.placemark?.coordinate else { return }
+        
+        Service.shered.uploadTrip(pickupCoordinates, destinationCoordinates) { (error, ref) in
+            if let error = error {
+                print("DEBUG: Failed to upload trip with error: \(error)")
+                return
+            }
+            
+            print("DEBUG: Did upload trip successfully.")
         }
     }
 }
