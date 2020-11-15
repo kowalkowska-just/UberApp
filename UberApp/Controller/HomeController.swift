@@ -38,7 +38,13 @@ class HomeController: UIViewController {
     private var route: MKRoute?
 
     private var user: User? {
-        didSet { locationInputView.user = user }
+        didSet {
+            locationInputView.user = user
+            if user?.accountType == .passenger {
+                fetchDrivers()
+                configureLocationInputActivationView()
+            }
+        }
     }
     
     private let actionButton: UIButton = {
@@ -57,7 +63,7 @@ class HomeController: UIViewController {
         checkIfUserIsLoggedIn()
         enableLocationServices()
 
-//        signOut()
+//     signOut()
     }
     
 //MARK: - Selectors
@@ -143,7 +149,6 @@ class HomeController: UIViewController {
     func configure() {
         configureUI()
         fetchUserData()
-        fetchDrivers()
     }
     
     fileprivate func configureActionButton(config: ActionButtonConfiguration) {
@@ -166,6 +171,10 @@ class HomeController: UIViewController {
         view.addSubview(actionButton)
         actionButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, paddingTop: 16, paddingLeft: 20, width: 25, height: 25)
         
+        configureTableView()
+    }
+    
+    func configureLocationInputActivationView() {
         view.addSubview(inputActivationView)
         inputActivationView.centerX(inView: view)
         inputActivationView.anchor(top: actionButton.bottomAnchor, paddingTop: 32, width: view.frame.width - 64, height: 50)
@@ -175,8 +184,6 @@ class HomeController: UIViewController {
         UIView.animate(withDuration: 2) {
             self.inputActivationView.alpha = 1
         }
-        
-        configureTableView()
     }
     
     func configureMapView() {

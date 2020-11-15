@@ -15,7 +15,7 @@ class SingUpController: UIViewController {
     
     private let location = LocationHandler.shared.locationManager.location
     
-    private var typeAccount = "Rider"
+    private var typeAccount = 0
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -118,9 +118,9 @@ class SingUpController: UIViewController {
         print("DEBUG: Changed value.")
         switch sender.selectedSegmentIndex {
         case 0:
-            typeAccount = "Rider"
+            typeAccount = 0
         case 1:
-            typeAccount = "Driver"
+            typeAccount = 1
         default:
             break
         }
@@ -150,7 +150,7 @@ class SingUpController: UIViewController {
                           "fullname": fullname,
                           "accountType": accountTypeIndex] as [String: Any]
             
-            if accountTypeIndex == "Driver" {
+            if accountTypeIndex == 1 {
                 let geofire = GeoFire(firebaseRef: REF_DRIVER_LOCATIONS)
                 guard let location = self.location else { return }
                 
