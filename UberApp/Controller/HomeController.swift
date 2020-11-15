@@ -43,7 +43,16 @@ class HomeController: UIViewController {
             if user?.accountType == .passenger {
                 fetchDrivers()
                 configureLocationInputActivationView()
+            } else {
+                //driver
+                observeTrips()
             }
+        }
+    }
+    
+    private var trip: Trip? {
+        didSet {
+            print("DEBUG: Show passenger controller.")
         }
     }
     
@@ -114,6 +123,12 @@ class HomeController: UIViewController {
             if !driverIsVisible {
                 self.mapView.addAnnotation(annotation)
             }
+        }
+    }
+    
+    func observeTrips() {
+        Service.shered.observeTrips { (trip) in
+            self.trip = trip
         }
     }
     
