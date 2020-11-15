@@ -480,13 +480,20 @@ extension HomeController: RideActionViewDelegate {
         guard let pickupCoordinates = locationManager?.location?.coordinate else { return }
         guard let destinationCoordinates = view.placemark?.coordinate else { return }
         
+        shouldPresentLoadingView(true, message: "Finding you a ride..")
+
         Service.shered.uploadTrip(pickupCoordinates, destinationCoordinates) { (error, ref) in
             if let error = error {
                 print("DEBUG: Failed to upload trip with error: \(error)")
                 return
             }
-            
+    
             print("DEBUG: Did upload trip successfully.")
+            
+            UIView.animate(withDuration: 0.3) {
+                self.rideActionView.frame.origin.y = self.view.frame.height
+            }
+            
         }
     }
 }
