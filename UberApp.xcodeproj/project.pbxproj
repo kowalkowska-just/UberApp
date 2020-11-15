@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		CCA2A2C0BE713E4E0E5EA593 /* Pods_UberApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 068B3D0165B16635C468F39E /* Pods_UberApp.framework */; };
+		D15AC4912561CA7D00398DFD /* PickupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15AC4902561CA7D00398DFD /* PickupController.swift */; };
 		D15BC1DE2555D98A00F82E58 /* SingUpController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15BC1DD2555D98A00F82E58 /* SingUpController.swift */; };
 		D15BC1E12555F81000F82E58 /* AuthButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15BC1E02555F81000F82E58 /* AuthButton.swift */; };
 		D15BC1E42557524800F82E58 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D15BC1E32557524800F82E58 /* GoogleService-Info.plist */; };
@@ -34,6 +35,7 @@
 		068B3D0165B16635C468F39E /* Pods_UberApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UberApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DA4A56DB2F4407A4AE0AE79 /* Pods-UberApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UberApp.debug.xcconfig"; path = "Target Support Files/Pods-UberApp/Pods-UberApp.debug.xcconfig"; sourceTree = "<group>"; };
 		B0E22504E04681D2BF30FCAD /* Pods-UberApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UberApp.release.xcconfig"; path = "Target Support Files/Pods-UberApp/Pods-UberApp.release.xcconfig"; sourceTree = "<group>"; };
+		D15AC4902561CA7D00398DFD /* PickupController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickupController.swift; sourceTree = "<group>"; };
 		D15BC1DD2555D98A00F82E58 /* SingUpController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingUpController.swift; sourceTree = "<group>"; };
 		D15BC1E02555F81000F82E58 /* AuthButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthButton.swift; sourceTree = "<group>"; };
 		D15BC1E32557524800F82E58 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 				D160168B2554C37F00C36409 /* LoginController.swift */,
 				D15BC1DD2555D98A00F82E58 /* SingUpController.swift */,
 				D1C35B8D2558B7CA00FB5504 /* HomeController.swift */,
+				D15AC4902561CA7D00398DFD /* PickupController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -158,8 +161,8 @@
 			isa = PBXGroup;
 			children = (
 				D1C35B9C255A0DA400FB5504 /* User.swift */,
-				D1694815255DFD2D00DBAD62 /* DriverAnnotation.swift */,
 				D169482D2560A72B00DBAD62 /* Trip.swift */,
+				D1694815255DFD2D00DBAD62 /* DriverAnnotation.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -293,6 +296,7 @@
 				D1C35B8E2558B7CA00FB5504 /* HomeController.swift in Sources */,
 				D1C35B942559BAB400FB5504 /* LocationInputView.swift in Sources */,
 				D169482E2560A72B00DBAD62 /* Trip.swift in Sources */,
+				D15AC4912561CA7D00398DFD /* PickupController.swift in Sources */,
 				D1694816255DFD2D00DBAD62 /* DriverAnnotation.swift in Sources */,
 				D16016722554C24C00C36409 /* AppDelegate.swift in Sources */,
 				D15BC1DE2555D98A00F82E58 /* SingUpController.swift in Sources */,
