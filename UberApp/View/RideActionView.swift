@@ -14,6 +14,39 @@ protocol RideActionViewDelegate: class {
     func uploadTrip(_ view: RideActionView)
 }
 
+enum RideActionViewConfiguration {
+    case requestRider
+    case tripAccepted
+    case pickupMessenger
+    case tripInProgress
+    case endTrip
+    
+    init() {
+        self = .requestRider
+    }
+}
+
+enum ButtonAction: CustomStringConvertible {
+    case requestRide
+    case cancelRide
+    case getDirections
+    case pickup
+    case dropOff
+    
+    var description: String {
+        switch self {
+        case .requestRide: return "CONFIRM UBERX"
+        case .cancelRide: return "CANCEL RIDE"
+        case .getDirections: return "GET DIRECTIONS"
+        case .pickup: return "PICKUP PASSENGER"
+        case .dropOff: return "DROP OFF PASSENGER"
+        }
+    }
+    init() {
+        self = .requestRide
+    }
+}
+
 class RideActionView: UIView {
 
 //MARK: - Properties
@@ -24,6 +57,9 @@ class RideActionView: UIView {
             addressLabel.text = placemark?.address
         }
     }
+    
+    var config = RideActionViewConfiguration()
+    var buttonAction = ButtonAction()
     
     weak var delegate: RideActionViewDelegate?
     
@@ -129,4 +165,9 @@ class RideActionView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+//MARK: - Helper Functions
+    
+    func configureUI(withConfiguration config: RideActionViewConfiguration) {
+        
+    }
 }
