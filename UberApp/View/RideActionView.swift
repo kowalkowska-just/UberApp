@@ -67,7 +67,6 @@ class RideActionView: UIView {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 17)
         label.textAlignment = .center
-        label.text = "Test Address Label"
         return label
     }()
     
@@ -76,7 +75,6 @@ class RideActionView: UIView {
         label.textColor = .lightGray
         label.font = .systemFont(ofSize: 16)
         label.textAlignment = .center
-        label.text = "Test Address"
 
         return label
     }()
@@ -168,6 +166,19 @@ class RideActionView: UIView {
 //MARK: - Helper Functions
     
     func configureUI(withConfiguration config: RideActionViewConfiguration) {
-        
+        switch config {
+        case .requestRider:
+            break
+        case .tripAccepted:
+            titleLabel.text = "En Route To Passenger"
+            buttonAction = .getDirections
+            actionButton.setTitle(buttonAction.description, for: .normal)
+        case .pickupMessenger:
+            break
+        case .tripInProgress:
+            break
+        case .endTrip:
+            break
+        }
     }
 }
