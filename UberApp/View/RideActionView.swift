@@ -85,20 +85,25 @@ class RideActionView: UIView {
         let view = UIView()
         view.backgroundColor = .black
         
+        view.addSubview(infoViewLabel)
+        infoViewLabel.centerX(inView: view)
+        infoViewLabel.centerY(inView: view)
+        
+        return view
+    }()
+    
+    private let infoViewLabel: UILabel = {
+        
         let label = UILabel()
         label.text = "X"
         label.font = UIFont.systemFont(ofSize: 30)
         label.textColor = .white
         label.textAlignment = .center
         
-        view.addSubview(label)
-        label.centerX(inView: view)
-        label.centerY(inView: view)
-        
-        return view
+        return label
     }()
     
-    private let uberXLabel: UILabel = {
+    private let uberInfoLabel: UILabel = {
         let label = UILabel()
         label.text = "UberX"
         label.font = UIFont.systemFont(ofSize: 17)
@@ -121,7 +126,19 @@ class RideActionView: UIView {
 //MARK: - Selectors
     
     @objc func actionButtonPressed() {
-        delegate?.uploadTrip(self)
+        switch buttonAction {
+        case .requestRide:
+            delegate?.uploadTrip(self)
+        case .cancelRide:
+            print("DEBUG: Handle cancel..")
+        case .getDirections:
+            print("DEBUG: Handle get directions..")
+        case .pickup:
+            print("DEBUG: Handle pickup..")
+        case .dropOff:
+            print("DEBUG: Handle drop off..")
+        }
+        
     }
 
 //MARK: - Lifecycle
@@ -147,14 +164,14 @@ class RideActionView: UIView {
         infoView.centerX(inView: self)
         infoView.layer.cornerRadius = 60 / 2
         
-        addSubview(uberXLabel)
-        uberXLabel.anchor(top: infoView.bottomAnchor, paddingTop: 8)
-        uberXLabel.centerX(inView: self)
+        addSubview(uberInfoLabel)
+        uberInfoLabel.anchor(top: infoView.bottomAnchor, paddingTop: 8)
+        uberInfoLabel.centerX(inView: self)
         
         let separatorView = UIView()
         separatorView.backgroundColor = .lightGray
         addSubview(separatorView)
-        separatorView.anchor(top: uberXLabel.bottomAnchor, left: leftAnchor,
+        separatorView.anchor(top: uberInfoLabel.bottomAnchor, left: leftAnchor,
                              right: rightAnchor, paddingTop: 4, height: 0.5)
         
         addSubview(actionButton)
@@ -172,6 +189,7 @@ class RideActionView: UIView {
         case .requestRider:
             buttonAction = .requestRide
             actionButton.setTitle(buttonAction.description, for: .normal)
+            
         case .tripAccepted:
             guard let user = user else { return }
             
@@ -184,12 +202,38 @@ class RideActionView: UIView {
                 actionButton.setTitle(buttonAction.description, for: .normal)
                 titleLabel.text = "Driver En Route"
             }
+            
+            infoViewLabel.text = String(user.fullname.first ?? "X")
+            uberInfoLabel.text = user.fullname
+            
         case .pickupMessenger:
-            break
+            titleLabel.text = "Arrived At Passenger Location"
+            buttonAction = .pickup
+            actionButton.setTitle(buttonAction.description, for: .normal)
+            
         case .tripInProgress:
-            break
+            guard let user = user else { return }
+            
+            if user.accountType == .driver {
+                actionButton.setTitle("TRIP IN PROGRESS", for: .normal)
+                actionButton.isEnabled = false
+            } else {
+                buttonAction = .getDirections
+                actionButton.setTitle(buttonAction.description, for: .normal)
+            }
+            
+            titleLabel.text = "En Route To Destination"
+            
         case .endTrip:
-            break
+            guard let user = user else { return }
+            if user.accountType == .driver {
+                actionButton.setTitle("ARRIVED AT DESTINATION", for: .normal)
+                actionButton.isEnabled = false
+            } else {
+                buttonAction = .dropOff
+                actionButton.setTitle(buttonAction.description, for: .normal)
+            }
+            
         }
     }
 }
