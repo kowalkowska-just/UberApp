@@ -528,6 +528,17 @@ extension HomeController: RideActionViewDelegate {
             
         }
     }
+    
+    func cancelTrip() {
+        Service.shered.cancelTrip { (error, ref) in
+            if let error = error {
+                print("DEBUG: Error deleting trip: \(error)")
+                return
+            }
+            
+            self.animateRideActionView(shouldShow: false)
+        }
+    }
 }
 
 // MARK: - PickupControllerDelegate
