@@ -557,6 +557,11 @@ extension HomeController: PickupControllerDelegate {
         
         mapView.zoomToFit(annotation: mapView.annotations)
 
+        Service.shered.observeTripCancelled(trip: trip) {
+            self.removeAnnotationsAndOverlays()
+            self.animateRideActionView(shouldShow: false)
+        }
+        
         self.dismiss(animated: true) {
             Service.shered.fetchUserData(uid: trip.passengerUid) { (passenger) in
                 self.animateRideActionView(shouldShow: true, config: .tripAccepted,
