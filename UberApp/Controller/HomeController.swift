@@ -117,14 +117,25 @@ class HomeController: UIViewController {
         Service.shered.observeCurrentTrip { (trip) in
             self.trip = trip
             
-            if trip.state == .accepted {
+            guard let state = trip.state else { return }
+            switch state {
+            
+            case .requested:
+                break
+            case .accepted:
                 print("DEBUG: Trip was accepted.")
                 self.shouldPresentLoadingView(false)
                 
                 guard let driverUid = trip.driverUid else { return }
-                Service.shered.fetchUserData(uid: driverUid) { (driver) in
+                Service.shered.fetchUserData(uid: driverUid, completion: { driver in
                     self.animateRideActionView(shouldShow: true, config: .tripAccepted, user: driver)
-                }
+                })
+            case .driverArrived:
+                self.rideActionView.config = .driverArrived
+            case .inProgress:
+                break
+            case .completed:
+                break
             }
         }
     }
@@ -432,8 +443,10 @@ extension HomeController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
         print("DEBUG: Driver did enter passenger region")
-        
         self.rideActionView.config = .pickupPassenger
+        
+        guard let trip = self.trip else { return }
+        Service.shered.updateTripState(trip: trip, state: .driverArrived)
     }
     
     func enableLocationServices() {
@@ -586,7 +599,8 @@ extension HomeController: RideActionViewDelegate {
 
 extension HomeController: PickupControllerDelegate {
     func didAcceptTrip(_ trip: Trip) {
-  //      self.trip?.state = .accepted
+        self.trip = trip
+        
         let anno = MKPointAnnotation()
         anno.coordinate = trip.pickupCoordinates
         mapView.addAnnotation(anno)
