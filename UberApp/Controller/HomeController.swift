@@ -144,6 +144,20 @@ class HomeController: UIViewController {
         }
     }
     
+    func startTrip() {
+        guard let trip = self.trip else { return }
+        Service.shered.updateTripState(trip: trip, state: .inProgress) { (error, ref) in
+            self.rideActionView.config = .tripInProgress
+            self.removeAnnotationsAndOverlays()
+            self.mapView.addAnnotationAndSelect(forCoordinate: trip.destinationCoordinates)
+            
+            let placemark = MKPlacemark(coordinate: trip.destinationCoordinates)
+            let mapItem = MKMapItem(placemark: placemark)
+            
+            self.generatePolyLine(toDestination: mapItem)
+        }
+    }
+    
     func fetchUserData() {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
         Service.shered.fetchUserData(uid: currentUid) { (user) in
@@ -434,7 +448,8 @@ extension HomeController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if let annotation = annotation as? DriverAnnotation {
             let view = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
-            view.image = UIImage(named: "driver-icon-2")
+            view.image = UIImage(systemName: "car.fill")
+            view.tintColor = .systemBackground
             return view
         }
         return nil
@@ -559,10 +574,7 @@ extension HomeController: UITableViewDelegate, UITableViewDataSource {
         generatePolyLine(toDestination: destination)
         
         dismissLocationView { (_) in
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = selectedPlacemark.coordinate
-            self.mapView.addAnnotation(annotation)
-            self.mapView.selectAnnotation(annotation, animated: true)
+            self.mapView.addAnnotationAndSelect(forCoordinate: selectedPlacemark.coordinate)
             
             let annotations = self.mapView.annotations.filter({ !$0.isKind(of: DriverAnnotation.self) })
             self.mapView.zoomToFit(annotation: annotations)
@@ -592,7 +604,6 @@ extension HomeController: RideActionViewDelegate {
             UIView.animate(withDuration: 0.3) {
                 self.rideActionView.frame.origin.y = self.view.frame.height
             }
-            
         }
     }
     
@@ -613,6 +624,10 @@ extension HomeController: RideActionViewDelegate {
             self.inputActivationView.alpha = 1
         }
     }
+    
+    func pickupPassenger() {
+        startTrip()
+    }
 }
 
 // MARK: - PickupControllerDelegate
@@ -620,12 +635,8 @@ extension HomeController: RideActionViewDelegate {
 extension HomeController: PickupControllerDelegate {
     func didAcceptTrip(_ trip: Trip) {
         self.trip = trip
-        
-        let anno = MKPointAnnotation()
-        anno.coordinate = trip.pickupCoordinates
-        mapView.addAnnotation(anno)
-        mapView.selectAnnotation(anno, animated: true)
-        
+
+        self.mapView.addAnnotationAndSelect(forCoordinate: trip.pickupCoordinates)
         
         let placemark = MKPlacemark(coordinate: trip.pickupCoordinates)
         let mapItem = MKMapItem(placemark: placemark)
