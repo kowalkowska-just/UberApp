@@ -34,13 +34,8 @@ struct Service {
         let geofire = GeoFire(firebaseRef: REF_DRIVER_LOCATIONS)
         REF_DRIVER_LOCATIONS.observe(.value) { (snapshot) in
             geofire.query(at: location, withRadius: 50).observe(.keyEntered, with: { (uid, location) in
-                print("DEBUG: Uid is \(uid)")
-                print("DEBUG: Location coordinates \(location.coordinate)")
-
                 self.fetchUserData(uid: uid) { (user) in
-                    
                     var driver = user
-                    
                     driver.location = location
                     completion(driver)
                 }
@@ -106,7 +101,12 @@ struct Service {
         geofire.setLocation(location, forKey: uid)
     }
     
-    func updateTripState(trip: Trip, state: TripState) {
-        REF_TRIPS.child(trip.passengerUid).child("state").setValue(state.rawValue)
+    func updateTripState(trip: Trip, state: TripState, completion: @escaping(Error?, DatabaseReference) -> Void) {
+        REF_TRIPS.child(trip.passengerUid).child("state").setValue(state.rawValue, withCompletionBlock: completion)
+        
+            if state == .completed {
+                REF_TRIPS.child(trip.passengerUid).removeAllObservers()
+            }
+        
     }
 }

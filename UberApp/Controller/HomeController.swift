@@ -40,6 +40,7 @@ class HomeController: UIViewController {
     private var user: User? {
         didSet {
             locationInputView.user = user
+            
             if user?.accountType == .passenger {
                 fetchDrivers()
                 configureLocationInputActivationView()
@@ -83,7 +84,6 @@ class HomeController: UIViewController {
         super.viewDidLoad()
         checkIfUserIsLoggedIn()
         enableLocationServices()
-
 //     signOut()
     }
     
@@ -116,19 +116,23 @@ class HomeController: UIViewController {
     func observeCurrentTrip() {
         Service.shered.observeCurrentTrip { (trip) in
             self.trip = trip
-            
+            guard let driverUid = trip.driverUid else { return }
             guard let state = trip.state else { return }
-            switch state {
             
+            switch state {
             case .requested:
                 break
             case .accepted:
                 print("DEBUG: Trip was accepted.")
                 self.shouldPresentLoadingView(false)
+                self.removeAnnotationsAndOverlays()
                 
-                guard let driverUid = trip.driverUid else { return }
+                self.zoomForActiveTrip(withDriverUid: driverUid)
+                
                 Service.shered.fetchUserData(uid: driverUid, completion: { driver in
-                    self.animateRideActionView(shouldShow: true, config: .tripAccepted, user: driver)
+                    self.animateRideActionView(shouldShow: true,
+                                               config: .tripAccepted,
+                                               user: driver)
                 })
             case .driverArrived:
                 self.rideActionView.config = .driverArrived
@@ -158,6 +162,7 @@ class HomeController: UIViewController {
                     guard let driverAnnotation = annotation as? DriverAnnotation else { return false }
                     if driverAnnotation.uid == driver.uid {
                         driverAnnotation.updateAnnotationPosition(withCoordinate: coordinate)
+                        self.zoomForActiveTrip(withDriverUid: driver.uid)
                         return true
                     }
                     return false
@@ -398,6 +403,20 @@ private extension HomeController {
         print("DEBUG: Did set region \(region)")
         }
     
+    func  zoomForActiveTrip(withDriverUid uid: String) {
+        var annotations = [MKAnnotation]()
+        self.mapView.annotations.forEach { (annotation) in
+            if let anno = annotation as? DriverAnnotation {
+                if anno.uid == uid {
+                    annotations.append(anno)
+                }
+            }
+            if let userAnno = annotation as? MKUserLocation {
+                annotations.append(userAnno)
+            }
+        }
+        self.mapView.zoomToFit(annotation: annotations)
+    }
 }
 
 //MARK: - MKMapViewDelegate
@@ -443,10 +462,11 @@ extension HomeController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
         print("DEBUG: Driver did enter passenger region")
-        self.rideActionView.config = .pickupPassenger
         
         guard let trip = self.trip else { return }
-        Service.shered.updateTripState(trip: trip, state: .driverArrived)
+        Service.shered.updateTripState(trip: trip, state: .driverArrived) { (error, ref) in
+            self.rideActionView.config = .pickupPassenger
+        }
     }
     
     func enableLocationServices() {
@@ -606,11 +626,12 @@ extension HomeController: PickupControllerDelegate {
         mapView.addAnnotation(anno)
         mapView.selectAnnotation(anno, animated: true)
         
-        setCustomRegion(withCoordinate: trip.pickupCoordinates)
         
         let placemark = MKPlacemark(coordinate: trip.pickupCoordinates)
         let mapItem = MKMapItem(placemark: placemark)
         generatePolyLine(toDestination: mapItem)
+        
+        setCustomRegion(withCoordinate: trip.pickupCoordinates)
         
         mapView.zoomToFit(annotation: mapView.annotations)
 
