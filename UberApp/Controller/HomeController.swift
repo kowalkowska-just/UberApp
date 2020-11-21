@@ -143,6 +143,8 @@ class HomeController: UIViewController {
                 self.rideActionView.config = .driverArrived
             case .inProgress:
                 self.rideActionView.config = .tripInProgress
+            case .arrivedAtDestination:
+                self.rideActionView.config = .endTrip
             case .completed:
                 break
             }
@@ -487,11 +489,16 @@ extension HomeController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
-        print("DEBUG: Driver did enter passenger region")
-        
         guard let trip = self.trip else { return }
-        Service.shered.updateTripState(trip: trip, state: .driverArrived) { (error, ref) in
-            self.rideActionView.config = .pickupPassenger
+
+        if region.identifier == AnnotationType.pickup.rawValue {
+            Service.shered.updateTripState(trip: trip, state: .driverArrived) { (error, ref) in
+                self.rideActionView.config = .pickupPassenger
+            }
+        } else if region.identifier == AnnotationType.destination.rawValue {
+            Service.shered.updateTripState(trip: trip, state: .arrivedAtDestination) { (error, ref) in
+                self.rideActionView.config = .endTrip
+            }
         }
     }
     
