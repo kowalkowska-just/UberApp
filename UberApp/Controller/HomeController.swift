@@ -146,7 +146,10 @@ class HomeController: UIViewController {
             case .arrivedAtDestination:
                 self.rideActionView.config = .endTrip
             case .completed:
-                break
+                self.animateRideActionView(shouldShow: false)
+                self.centerMapUserLocation()
+                self.configureActionButton(config: .showMenu)
+                self.presentAlertController(withTitle: "Trip Completed", withMessage: "We hope you enjoyed your trip")
             }
         }
     }
@@ -645,6 +648,15 @@ extension HomeController: RideActionViewDelegate {
     
     func pickupPassenger() {
         startTrip()
+    }
+
+    func dropOffPassenger() {
+        guard let trip = self.trip else { return }
+        Service.shered.updateTripState(trip: trip, state: .completed) { (err, ref) in
+            self.removeAnnotationsAndOverlays()
+            self.centerMapUserLocation()
+            self.animateRideActionView(shouldShow: false)
+        }
     }
 }
 
