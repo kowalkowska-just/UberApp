@@ -11,12 +11,14 @@ class MenuHeader: UIView {
     
 // MARK: - Properties
 
-    var user: User? {
-        didSet {
-            fullnameLable.text = user?.fullname
-            emailLable.text = user?.email
-        }
-    }
+//    var user: User? {
+//        didSet {
+//            fullnameLable.text = user?.fullname
+//            emailLable.text = user?.email
+//        }
+//    }
+    
+    private let user: User
     
     private let profileImageView: UIImageView = {
         let iv = UIImageView()
@@ -24,19 +26,21 @@ class MenuHeader: UIView {
         return iv
     }()
     
-    private let fullnameLable: UILabel = {
+    private lazy var fullnameLable: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16)
         label.textColor = .white
         label.text = "Justyna Kowalkowska"
+        label.text = user.fullname
         return label
     }()
     
-    private let emailLable: UILabel = {
+    private lazy var emailLable: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = .lightGray
         label.text = "justynakowalkowska@gmail.com"
+        label.text = user.email
         return label
     }()
     
@@ -64,7 +68,8 @@ class MenuHeader: UIView {
 
 // MARK: - Lifecycle
     
-    override init(frame: CGRect) {
+    init(user: User, frame: CGRect) {
+        self.user = user
         super.init(frame: frame)
         
         backgroundColor = .backgroundColor
