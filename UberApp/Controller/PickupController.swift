@@ -75,7 +75,7 @@ class PickupController: UIViewController {
     }
     
     @objc func handleAcceptTrip() {
-        Service.shered.acceptTrip(trip: trip) { (error, ref) in
+        DriverService.shered.acceptTrip(trip: trip) { (error, ref) in
             self.delegate?.didAcceptTrip(self.trip)
         }
     }

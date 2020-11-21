@@ -116,10 +116,10 @@ class HomeController: UIViewController {
         }
     }
     
-//MARK: - API
+//MARK: - Passenger API
     
     func observeCurrentTrip() {
-        Service.shered.observeCurrentTrip { (trip) in
+        PassengerService.shered.observeCurrentTrip { (trip) in
             self.trip = trip
             guard let driverUid = trip.driverUid else { return }
             guard let state = trip.state else { return }
@@ -146,7 +146,7 @@ class HomeController: UIViewController {
             case .arrivedAtDestination:
                 self.rideActionView.config = .endTrip
             case .completed:
-                Service.shered.deleteTrip { (error, ref) in
+                PassengerService.shered.deleteTrip { (error, ref) in
                     self.animateRideActionView(shouldShow: false)
                     self.centerMapUserLocation()
                     self.configureActionButton(config: .showMenu)
@@ -160,7 +160,7 @@ class HomeController: UIViewController {
     
     func startTrip() {
         guard let trip = self.trip else { return }
-        Service.shered.updateTripState(trip: trip, state: .inProgress) { (error, ref) in
+        DriverService.shered.updateTripState(trip: trip, state: .inProgress) { (error, ref) in
             self.rideActionView.config = .tripInProgress
             self.removeAnnotationsAndOverlays()
             self.mapView.addAnnotationAndSelect(forCoordinate: trip.destinationCoordinates)
@@ -175,16 +175,9 @@ class HomeController: UIViewController {
         }
     }
     
-    func fetchUserData() {
-        guard let currentUid = Auth.auth().currentUser?.uid else { return }
-        Service.shered.fetchUserData(uid: currentUid) { (user) in
-            self.user = user
-        }
-    }
-    
     func fetchDrivers() {
         guard let location = locationManager?.location else { return }
-        Service.shered.fetchDrivers(location: location) { (driver) in
+        PassengerService.shered.fetchDrivers(location: location) { (driver) in
             guard let coordinate = driver.location?.coordinate else { return }
             let annotation = DriverAnnotation(uid: driver.uid, coordinate: coordinate)
             
@@ -206,9 +199,30 @@ class HomeController: UIViewController {
         }
     }
     
+//MARK: - Driver API
+
+    
     func observeTrips() {
-        Service.shered.observeTrips { (trip) in
+        DriverService.shered.observeTrips { (trip) in
             self.trip = trip
+        }
+    }
+    
+    func observeCancelledTrip(trip: Trip) {
+        DriverService.shered.observeTripCancelled(trip: trip) {
+            self.removeAnnotationsAndOverlays()
+            self.animateRideActionView(shouldShow: false)
+            self.centerMapUserLocation()
+            self.presentAlertController(withTitle: "Oops!", withMessage: "The passenger has decided to cancel this ride. Press OK to continue.")
+        }
+    }
+    
+//MARK: - Shared API
+
+    func fetchUserData() {
+        guard let currentUid = Auth.auth().currentUser?.uid else { return }
+        Service.shered.fetchUserData(uid: currentUid) { (user) in
+            self.user = user
         }
     }
     
@@ -459,7 +473,7 @@ extension HomeController: MKMapViewDelegate {
         guard let user = self.user else { return }
         guard user.accountType == .driver else { return }
         guard let location = userLocation.location else { return }
-        Service.shered.updateDriveLocation(location: location)
+        DriverService.shered.updateDriveLocation(location: location)
     }
 
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -500,11 +514,11 @@ extension HomeController: CLLocationManagerDelegate {
         guard let trip = self.trip else { return }
 
         if region.identifier == AnnotationType.pickup.rawValue {
-            Service.shered.updateTripState(trip: trip, state: .driverArrived) { (error, ref) in
+            DriverService.shered.updateTripState(trip: trip, state: .driverArrived) { (error, ref) in
                 self.rideActionView.config = .pickupPassenger
             }
         } else if region.identifier == AnnotationType.destination.rawValue {
-            Service.shered.updateTripState(trip: trip, state: .arrivedAtDestination) { (error, ref) in
+            DriverService.shered.updateTripState(trip: trip, state: .arrivedAtDestination) { (error, ref) in
                 self.rideActionView.config = .endTrip
             }
         }
@@ -619,7 +633,7 @@ extension HomeController: RideActionViewDelegate {
         
         shouldPresentLoadingView(true, message: "Finding you a ride..")
 
-        Service.shered.uploadTrip(pickupCoordinates, destinationCoordinates) { (error, ref) in
+        PassengerService.shered.uploadTrip(pickupCoordinates, destinationCoordinates) { (error, ref) in
             if let error = error {
                 print("DEBUG: Failed to upload trip with error: \(error)")
                 return
@@ -634,7 +648,7 @@ extension HomeController: RideActionViewDelegate {
     }
     
     func cancelTrip() {
-        Service.shered.deleteTrip { (error, ref) in
+        PassengerService.shered.deleteTrip { (error, ref) in
             if let error = error {
                 print("DEBUG: Error deleting trip: \(error.localizedDescription)")
                 return
@@ -657,7 +671,7 @@ extension HomeController: RideActionViewDelegate {
 
     func dropOffPassenger() {
         guard let trip = self.trip else { return }
-        Service.shered.updateTripState(trip: trip, state: .completed) { (err, ref) in
+        DriverService.shered.updateTripState(trip: trip, state: .completed) { (err, ref) in
             self.removeAnnotationsAndOverlays()
             self.centerMapUserLocation()
             self.animateRideActionView(shouldShow: false)
@@ -681,12 +695,7 @@ extension HomeController: PickupControllerDelegate {
         
         mapView.zoomToFit(annotation: mapView.annotations)
 
-        Service.shered.observeTripCancelled(trip: trip) {
-            self.removeAnnotationsAndOverlays()
-            self.animateRideActionView(shouldShow: false)
-            self.centerMapUserLocation()
-            self.presentAlertController(withTitle: "Oops!", withMessage: "The passenger has decided to cancel this ride. Press OK to continue.")
-        }
+        observeCancelledTrip(trip: trip)
         
         self.dismiss(animated: true) {
             Service.shered.fetchUserData(uid: trip.passengerUid) { (passenger) in
