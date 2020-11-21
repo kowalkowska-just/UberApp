@@ -95,7 +95,6 @@ class HomeController: UIViewController {
         super.viewDidLoad()
         checkIfUserIsLoggedIn()
         enableLocationServices()
-//     signOut()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -236,19 +235,6 @@ class HomeController: UIViewController {
         } else {
             print("DEBUG: User's id is \(String(describing: Auth.auth().currentUser?.uid))")
             configure()
-        }
-    }
-    
-    func signOut() {
-        do {
-            try Auth.auth().signOut()
-            DispatchQueue.main.async {
-                let nav = UINavigationController(rootViewController: LoginController())
-                nav.modalPresentationStyle = .fullScreen
-                self.present(nav, animated: true, completion: nil)
-            }
-        } catch {
-            print("DEBUG: Error signing out.")
         }
     }
     

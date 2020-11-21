@@ -23,11 +23,16 @@ enum MenuOptions: Int, CaseIterable, CustomStringConvertible {
     }
 }
 
+protocol MenuControllerDelegate: class {
+    func didSelect(option: MenuOptions)
+}
+
 class MenuController: UIViewController {
     
 //MARK: - Properties
     
     private let user: User
+    weak var delegate: MenuControllerDelegate?
     
     private let tableView = UITableView()
     
@@ -88,5 +93,10 @@ extension MenuController: UITableViewDelegate, UITableViewDataSource {
         guard let option = MenuOptions(rawValue: indexPath.row) else { return UITableViewCell() }
         cell.textLabel?.text = option.description
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let option = MenuOptions(rawValue: indexPath.row) else { return }
+        delegate?.didSelect(option: option)
     }
 }
