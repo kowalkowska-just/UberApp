@@ -146,10 +146,14 @@ class HomeController: UIViewController {
             case .arrivedAtDestination:
                 self.rideActionView.config = .endTrip
             case .completed:
-                self.animateRideActionView(shouldShow: false)
-                self.centerMapUserLocation()
-                self.configureActionButton(config: .showMenu)
-                self.presentAlertController(withTitle: "Trip Completed", withMessage: "We hope you enjoyed your trip")
+                Service.shered.deleteTrip { (error, ref) in
+                    self.animateRideActionView(shouldShow: false)
+                    self.centerMapUserLocation()
+                    self.configureActionButton(config: .showMenu)
+                    self.inputActivationView.alpha = 1
+                    self.presentAlertController(withTitle: "Trip Completed",
+                                                withMessage: "We hope you enjoyed your trip")
+                }
             }
         }
     }
@@ -165,8 +169,9 @@ class HomeController: UIViewController {
             let mapItem = MKMapItem(placemark: placemark)
             
             self.setCustomRegion(withType: .destination, coordinate: trip.destinationCoordinates)
-            
             self.generatePolyLine(toDestination: mapItem)
+            
+            self.mapView.zoomToFit(annotation: self.mapView.annotations)
         }
     }
     
@@ -629,7 +634,7 @@ extension HomeController: RideActionViewDelegate {
     }
     
     func cancelTrip() {
-        Service.shered.cancelTrip { (error, ref) in
+        Service.shered.deleteTrip { (error, ref) in
             if let error = error {
                 print("DEBUG: Error deleting trip: \(error.localizedDescription)")
                 return
