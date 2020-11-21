@@ -16,6 +16,8 @@ extension UIColor {
     
     static let backgroundColor = UIColor.rgb(red: 25, green: 25, blue: 25)
     static let mainBlueTint = UIColor.rgb(red: 17, green: 154, blue: 237)
+    static let onTint = UIColor.rgb(red: 26, green: 188, blue: 156)
+    static let offTint = UIColor.rgb(red: 231, green: 76, blue: 60)
 }
 
 extension UIView {
