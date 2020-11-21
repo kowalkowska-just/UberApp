@@ -26,6 +26,10 @@ private enum AnnotationType: String {
     case destination
 }
 
+protocol HomeControllerDelegate: class {
+    func handleManuTaggle()
+}
+
 class HomeController: UIViewController {
     
 //MARK: - Properties
@@ -41,6 +45,8 @@ class HomeController: UIViewController {
     private final let rideActionViewHeight: CGFloat = 300
     private var actionButtonConfig = ActionButtonConfiguration()
     private var route: MKRoute?
+    
+    weak var delegate: HomeControllerDelegate?
 
     private var user: User? {
         didSet {
@@ -112,7 +118,7 @@ class HomeController: UIViewController {
                 self.animateRideActionView(shouldShow: false)
             }
         case .showMenu:
-            print("DEBUG: Handle show menu.")
+            delegate?.handleManuTaggle()
         }
     }
     

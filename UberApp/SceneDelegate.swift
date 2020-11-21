@@ -18,7 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         self.window = UIWindow(windowScene: windowScene)
         window?.makeKeyAndVisible()
-        window?.rootViewController = HomeController()
+        window?.rootViewController = ContainerController()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
