@@ -32,7 +32,7 @@ class SettingsController: UITableViewController {
 
 //MARK: - Properties
     
-    private let user: User
+    private var user: User
     private let locationManager = LocationHandler.shared.locationManager
     
     private lazy var infoHeader: UserInfoHeader = {
@@ -64,6 +64,15 @@ class SettingsController: UITableViewController {
     }
     
 //MARK: - Helper functions
+    
+    func locationText(forType type: LocationType) -> String {
+        switch type {
+        case .home:
+            return user.homeLocation ?? type.subtitle
+        case .work:
+            return user.workLocation ?? type.subtitle
+        }
+    }
     
     func configureTableView() {
         tableView.rowHeight = 60
@@ -114,8 +123,8 @@ extension SettingsController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! LocationCell
         guard let type = LocationType(rawValue: indexPath.row) else { return cell }
-        cell.type = type
-        
+        cell.titleLable.text = type.description
+        cell.addressLable.text = locationText(forType: type)
         return cell
     }
     
@@ -136,6 +145,15 @@ extension SettingsController: AddLocationControllerDelegate {
     func updateLocation(locationString: String, type: LocationType) {
         PassengerService.shered.saveLocation(locationString: locationString, type: type) { (error, ref) in
             self.dismiss(animated: true, completion: nil)
+
+            switch type {
+            case .home:
+                self.user.homeLocation = locationString
+            case .work:
+                self.user.workLocation = locationString
+            }
+            
+            self.tableView.reloadData()
         }
     }
 }
