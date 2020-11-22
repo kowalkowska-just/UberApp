@@ -151,9 +151,9 @@
 			children = (
 				D18BDA00256943B4005CB854 /* SideMenu */,
 				D18BD9FF2569414E005CB854 /* Authentication */,
+				D1AED7C4256AAE0D0025EAF7 /* Settings */,
 				D1C35B8D2558B7CA00FB5504 /* HomeController.swift */,
 				D15AC4902561CA7D00398DFD /* PickupController.swift */,
-				D1AED7C4256AAE0D0025EAF7 /* Settings */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
