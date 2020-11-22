@@ -16,7 +16,9 @@ class AddLocationController: UITableViewController {
     
     private let searchBar = UISearchBar()
     private let searchCompleter = MKLocalSearchCompleter()
-    private var searchResults = [MKLocalSearchCompletion]()
+    private var searchResults = [MKLocalSearchCompletion]() {
+        didSet { tableView.reloadData() }
+    }
     private let type: LocationType
     private let location: CLLocation
     
@@ -89,6 +91,9 @@ extension AddLocationController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: reuseIdentifier)
+        let results = searchResults[indexPath.row]
+        cell.textLabel?.text = results.title
+        cell.detailTextLabel?.text = results.subtitle
         return cell
     }
 }
@@ -96,11 +101,15 @@ extension AddLocationController {
 //MARK: - UISearchBarDelegate
 
 extension AddLocationController: UISearchBarDelegate {
-    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        searchCompleter.queryFragment = searchText
+    }
 }
 
 //MARK: - MKLocalSearchCompleterDelegate
 
 extension AddLocationController: MKLocalSearchCompleterDelegate {
-    
+    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
+        searchResults = completer.results
+    }
 }
