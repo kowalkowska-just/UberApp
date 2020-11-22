@@ -20,6 +20,19 @@ class PickupController: UIViewController {
     
     private let mapView = MKMapView()
     
+    private lazy var circularProgressView: CircularProgressView = {
+        let frame = CGRect(x: 0, y: 0, width: 360, height: 360)
+        let cp = CircularProgressView(frame: frame)
+        
+        cp.addSubview(mapView)
+        mapView.anchor(width: 268, height: 268)
+        mapView.layer.cornerRadius = 268 / 2
+        mapView.centerX(inView: cp)
+        mapView.centerY(inView: cp, constant: 32)
+        
+        return cp
+    }()
+    
     private let cancelButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "xmark"), for: .normal)
@@ -65,9 +78,17 @@ class PickupController: UIViewController {
         super.viewDidLoad()
         configureUI()
         configureMapView()
+        self.perform(#selector(animateProgress), with: nil, afterDelay: 0.5)
     }
     
 //MARK: - Selectors
+    
+    @objc func animateProgress() {
+        circularProgressView.animatePulsatingLayer()
+        circularProgressView.setProgressWithAnimation(duration: 5, value: 0) {
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
     
     @objc func handleDismissal() {
         print("DEBUG: Pressed cancel button...")
@@ -100,15 +121,14 @@ class PickupController: UIViewController {
                             left: view.leftAnchor, paddingTop: 15,
                             paddingLeft: 15, width: 30, height: 30)
         
-        view.addSubview(mapView)
-        mapView.centerX(inView: view)
-        mapView.centerY(inView: view, constant: -100)
-        mapView.anchor(width: 270, height: 270)
-        mapView.layer.cornerRadius = 270 / 2
+        view.addSubview(circularProgressView)
+        circularProgressView.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: 32)
+        circularProgressView.anchor(width: 360, height: 360)
+        circularProgressView.centerX(inView: view)
         
         view.addSubview(pickupLabel)
         pickupLabel.centerX(inView: view)
-        pickupLabel.anchor(top: mapView.bottomAnchor, paddingTop: 20)
+        pickupLabel.anchor(top: circularProgressView.bottomAnchor, paddingTop: 32)
         
         view.addSubview(acceptTripButton)
         acceptTripButton.anchor(top: pickupLabel.bottomAnchor, left: view.leftAnchor,
