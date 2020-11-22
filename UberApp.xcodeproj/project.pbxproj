@@ -26,6 +26,8 @@
 		D18BDA0225694406005CB854 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18BDA0125694406005CB854 /* MenuController.swift */; };
 		D18BDA0525694421005CB854 /* ContainerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18BDA0425694421005CB854 /* ContainerController.swift */; };
 		D18BDA0825696271005CB854 /* MenuHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18BDA0725696271005CB854 /* MenuHeader.swift */; };
+		D1AED7BF2569E8AB0025EAF7 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1AED7BE2569E8AB0025EAF7 /* SettingsController.swift */; };
+		D1AED7C22569F1A30025EAF7 /* UserInfoHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1AED7C12569F1A30025EAF7 /* UserInfoHeader.swift */; };
 		D1C35B8E2558B7CA00FB5504 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C35B8D2558B7CA00FB5504 /* HomeController.swift */; };
 		D1C35B9125599CF700FB5504 /* LocationInputActivationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C35B9025599CF700FB5504 /* LocationInputActivationView.swift */; };
 		D1C35B942559BAB400FB5504 /* LocationInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C35B932559BAB400FB5504 /* LocationInputView.swift */; };
@@ -58,6 +60,8 @@
 		D18BDA0125694406005CB854 /* MenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		D18BDA0425694421005CB854 /* ContainerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerController.swift; sourceTree = "<group>"; };
 		D18BDA0725696271005CB854 /* MenuHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuHeader.swift; sourceTree = "<group>"; };
+		D1AED7BE2569E8AB0025EAF7 /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
+		D1AED7C12569F1A30025EAF7 /* UserInfoHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoHeader.swift; sourceTree = "<group>"; };
 		D1C35B8D2558B7CA00FB5504 /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		D1C35B9025599CF700FB5504 /* LocationInputActivationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInputActivationView.swift; sourceTree = "<group>"; };
 		D1C35B932559BAB400FB5504 /* LocationInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInputView.swift; sourceTree = "<group>"; };
@@ -147,6 +151,7 @@
 				D18BD9FF2569414E005CB854 /* Authentication */,
 				D1C35B8D2558B7CA00FB5504 /* HomeController.swift */,
 				D15AC4902561CA7D00398DFD /* PickupController.swift */,
+				D1AED7BE2569E8AB0025EAF7 /* SettingsController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -160,6 +165,7 @@
 				D1C35B962559EB5900FB5504 /* LocationCell.swift */,
 				D169481825605C8F00DBAD62 /* RideActionView.swift */,
 				D18BDA0725696271005CB854 /* MenuHeader.swift */,
+				D1AED7C12569F1A30025EAF7 /* UserInfoHeader.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -319,6 +325,8 @@
 				D160168C2554C37F00C36409 /* LoginController.swift in Sources */,
 				D15BC1E12555F81000F82E58 /* AuthButton.swift in Sources */,
 				D1C35B8E2558B7CA00FB5504 /* HomeController.swift in Sources */,
+				D1AED7C22569F1A30025EAF7 /* UserInfoHeader.swift in Sources */,
+				D1AED7BF2569E8AB0025EAF7 /* SettingsController.swift in Sources */,
 				D1C35B942559BAB400FB5504 /* LocationInputView.swift in Sources */,
 				D169482E2560A72B00DBAD62 /* Trip.swift in Sources */,
 				D18BDA0825696271005CB854 /* MenuHeader.swift in Sources */,
