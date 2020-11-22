@@ -28,6 +28,7 @@
 		D18BDA0825696271005CB854 /* MenuHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18BDA0725696271005CB854 /* MenuHeader.swift */; };
 		D1AED7BF2569E8AB0025EAF7 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1AED7BE2569E8AB0025EAF7 /* SettingsController.swift */; };
 		D1AED7C22569F1A30025EAF7 /* UserInfoHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1AED7C12569F1A30025EAF7 /* UserInfoHeader.swift */; };
+		D1AED7C7256AB5770025EAF7 /* AddLocationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1AED7C6256AB5770025EAF7 /* AddLocationController.swift */; };
 		D1C35B8E2558B7CA00FB5504 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C35B8D2558B7CA00FB5504 /* HomeController.swift */; };
 		D1C35B9125599CF700FB5504 /* LocationInputActivationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C35B9025599CF700FB5504 /* LocationInputActivationView.swift */; };
 		D1C35B942559BAB400FB5504 /* LocationInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C35B932559BAB400FB5504 /* LocationInputView.swift */; };
@@ -62,6 +63,7 @@
 		D18BDA0725696271005CB854 /* MenuHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuHeader.swift; sourceTree = "<group>"; };
 		D1AED7BE2569E8AB0025EAF7 /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		D1AED7C12569F1A30025EAF7 /* UserInfoHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoHeader.swift; sourceTree = "<group>"; };
+		D1AED7C6256AB5770025EAF7 /* AddLocationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLocationController.swift; sourceTree = "<group>"; };
 		D1C35B8D2558B7CA00FB5504 /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		D1C35B9025599CF700FB5504 /* LocationInputActivationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInputActivationView.swift; sourceTree = "<group>"; };
 		D1C35B932559BAB400FB5504 /* LocationInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInputView.swift; sourceTree = "<group>"; };
@@ -151,7 +153,7 @@
 				D18BD9FF2569414E005CB854 /* Authentication */,
 				D1C35B8D2558B7CA00FB5504 /* HomeController.swift */,
 				D15AC4902561CA7D00398DFD /* PickupController.swift */,
-				D1AED7BE2569E8AB0025EAF7 /* SettingsController.swift */,
+				D1AED7C4256AAE0D0025EAF7 /* Settings */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -196,6 +198,15 @@
 				D18BDA0425694421005CB854 /* ContainerController.swift */,
 			);
 			path = SideMenu;
+			sourceTree = "<group>";
+		};
+		D1AED7C4256AAE0D0025EAF7 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				D1AED7BE2569E8AB0025EAF7 /* SettingsController.swift */,
+				D1AED7C6256AB5770025EAF7 /* AddLocationController.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		DBC159758972DD3FA24BC580 /* Pods */ = {
@@ -333,6 +344,7 @@
 				D15AC4912561CA7D00398DFD /* PickupController.swift in Sources */,
 				D1694816255DFD2D00DBAD62 /* DriverAnnotation.swift in Sources */,
 				D16016722554C24C00C36409 /* AppDelegate.swift in Sources */,
+				D1AED7C7256AB5770025EAF7 /* AddLocationController.swift in Sources */,
 				D15BC1DE2555D98A00F82E58 /* SingUpController.swift in Sources */,
 				D1C35B972559EB5900FB5504 /* LocationCell.swift in Sources */,
 				D18BDA0225694406005CB854 /* MenuController.swift in Sources */,
