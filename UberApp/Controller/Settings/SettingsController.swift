@@ -123,8 +123,19 @@ extension SettingsController {
         guard let type = LocationType(rawValue: indexPath.row) else { return }
         guard let location = locationManager?.location else { return }
         let controller = AddLocationController(type: type, location: location)
+        controller.delegate = self
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
         present(nav, animated: true, completion: nil)
+    }
+}
+
+//MARL: - AddLocationControllerDelegate
+
+extension SettingsController: AddLocationControllerDelegate {
+    func updateLocation(locationString: String, type: LocationType) {
+        PassengerService.shered.saveLocation(locationString: locationString, type: type) { (error, ref) in
+            self.dismiss(animated: true, completion: nil)
+        }
     }
 }
