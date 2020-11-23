@@ -18,8 +18,9 @@ extension UIColor {
     static let mainBlueTint = UIColor.rgb(red: 17, green: 154, blue: 237)
     static let onTint = UIColor.rgb(red: 26, green: 188, blue: 156)
     static let offTint = UIColor.rgb(red: 231, green: 76, blue: 60)
-    static let fillColor = UIColor.rgb(red: 0, green: 98, blue: 102)
-    static let strokeColor = UIColor.rgb(red: 18, green: 137, blue: 167)
+    static let outlineStrokeColor = UIColor.rgb(red: 234, green: 46, blue: 111)
+    static let trackStrokeColor = UIColor.rgb(red: 56, green: 25, blue: 49)
+    static let pulsatingFillColor = UIColor.rgb(red: 86, green: 30, blue: 63)
 
 }
 
