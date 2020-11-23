@@ -134,8 +134,16 @@ class HomeController: UIViewController {
             switch state {
             case .requested:
                 break
+            case .denied:
+                self.shouldPresentLoadingView(false)
+                self.presentAlertController(withTitle: "Oops", withMessage: "It looks like we couldnt find you a driver. Please try again..")
+                PassengerService.shered.deleteTrip { (error, ref) in
+                    self.centerMapUserLocation()
+                    self.configureActionButton(config: .showMenu)
+                    self.inputActivationView.alpha = 1
+                    self.removeAnnotationsAndOverlays()
+                }
             case .accepted:
-                print("DEBUG: Trip was accepted.")
                 self.shouldPresentLoadingView(false)
                 self.removeAnnotationsAndOverlays()
                 
@@ -220,6 +228,7 @@ class HomeController: UIViewController {
             self.removeAnnotationsAndOverlays()
             self.animateRideActionView(shouldShow: false)
             self.centerMapUserLocation()
+            if trip.state.rawValue == 1 { return }
             self.presentAlertController(withTitle: "Oops!", withMessage: "The passenger has decided to cancel this ride. Press OK to continue.")
         }
     }
@@ -436,7 +445,7 @@ private extension HomeController {
         print("DEBUG: Did set region \(region)")
         }
     
-    func  zoomForActiveTrip(withDriverUid uid: String) {
+    func zoomForActiveTrip(withDriverUid uid: String) {
         var annotations = [MKAnnotation]()
         self.mapView.annotations.forEach { (annotation) in
             if let anno = annotation as? DriverAnnotation {
